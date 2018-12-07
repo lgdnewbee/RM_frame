@@ -39,6 +39,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f4xx_hal.h"
+#include "adc.h"
 #include "can.h"
 #include "dma.h"
 #include "iwdg.h"
@@ -54,7 +55,9 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint32_t ADC_Value[160];
+//uint32_t ADC_Value[160];
+uint32_t ADC_value[100];//用于存储红外传感器的返回数据
+uint32_t ADC2_value[100];
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE END PV */
@@ -125,6 +128,8 @@ int main(void)
   MX_TIM5_Init();
   MX_USART3_UART_Init();
   MX_UART7_Init();
+  MX_ADC1_Init();
+  MX_ADC2_Init();
 
   /* USER CODE BEGIN 2 */
 	//各模块初始化
@@ -160,7 +165,9 @@ int main(void)
 		HAL_NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
 	#endif
 	__HAL_UART_ENABLE_IT(&UPPER_UART, UART_IT_IDLE);
-
+	//开启红外传感器，并把数据存在ADC_value里
+  HAL_ADC_Start_DMA(&hadc1,ADC_value,100);
+  HAL_ADC_Start_DMA(&hadc2,ADC2_value,100);
 	
   /* USER CODE END 2 */
 

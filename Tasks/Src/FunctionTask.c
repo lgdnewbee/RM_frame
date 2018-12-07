@@ -24,6 +24,9 @@ int16_t channellrow = 0;
 int16_t channellcol = 0;
 int16_t testIntensity = 0;
 
+extern uint32_t ADC_value[100];
+extern uint32_t ADC2_value[100];
+
 //初始化
 void FunctionTaskInit()
 {
@@ -44,7 +47,45 @@ void OptionalFunction()
 	Cap_Control();
 	PowerLimitation();
 }
-
+int mode=0;
+int step=0;
+int flag_aim=0;//用以标记是否对准
+void autoget()
+{
+	if(auto_counter==0)
+	{
+		switch(mode)
+		{
+			case 0:
+				break;
+			case 1:
+			{
+				switch(step)
+				{
+					case 0://判断是否对准，如果对准则下一步
+						if(ADC_value[1]==4095&&flag_aim==0)
+							flag_aim=1;//第一个红外传感器对准
+						if(ADC2_value[1]==4095&&flag_aim==1)
+							flag_aim=2;//第二个红外传感器也对准
+						if(flag_aim==2)
+						step++;//下一步
+						break;
+					case 1:
+						//夹紧并扔掉，转到下一个位置（目前莫得可写）
+						step++;
+						//auto_counter = 500;
+						break;
+					case 2:
+						//do something
+						step = 0;
+						mode = 0;
+						//auto_counter = 500;
+						break;
+				}
+			}break;
+		}
+	}
+}
 void Limit_and_Synchronization()
 {
 	//demo
@@ -83,9 +124,12 @@ void RemoteControlProcess(Remote *rc)
 	}
 	if(WorkState == ADDITIONAL_STATE_TWO)
 	{
-		FRICL.TargetAngle = 5000;
-		FRICR.TargetAngle = -5000;
-		Delay(20,{STIR.TargetAngle-=60;});
+		ChassisSpeedRef.forward_back_ref = channelrcol * RC_CHASSIS_SPEED_REF;
+		ChassisSpeedRef.left_right_ref   = channelrrow * RC_CHASSIS_SPEED_REF/2;
+		ChassisSpeedRef.rotate_ref = channellrow * RC_ROTATE_SPEED_REF;
+		if(channellrow>500&&mode==0)
+			mode=1;
+		autoget();
 	}
 	Limit_and_Synchronization();
 }
