@@ -19,7 +19,7 @@
 #define BUZZER_TIM 				htim12
 
 #define RC_UART 				huart1
-#define MANIFOLD_UART 			huart3
+#define AutoAim_UART 			huart8
 #define UPPER_UART 				huart3
 #define JUDGE_UART 				huart6
 #define GYRO_UART 				huart7

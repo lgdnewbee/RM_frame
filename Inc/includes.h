@@ -16,10 +16,8 @@
 
 #define INFANTRY2
 
-
 #define USE_GYRO
 #define USE_CHASSIS_FOLLOW
-
 
 #define CAN11
 #define CAN12
@@ -44,12 +42,12 @@
 #include "MotorTask.h"
 #include "ControlTask.h"
 #include "drivers_ramp.h"
-#include "ManifoldTask.h"
 #include "JudgeTask.h"
 #include "UpperTask.h"
 #include "CapControlTask.h"
 #include "PowerLimitationTask.h"
 #include "GyroReadTask.h"
+#include "AutoAimTask.h"
 
 
 extern int16_t global_catch;		//用于检测一个其他文档里，不值得设置全局变量，但是临时需要读取的数据

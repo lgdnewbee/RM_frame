@@ -125,6 +125,7 @@ int main(void)
   MX_TIM5_Init();
   MX_USART3_UART_Init();
   MX_UART7_Init();
+  MX_UART8_Init();
 
   /* USER CODE BEGIN 2 */
 	//各模块初始化
@@ -160,7 +161,8 @@ int main(void)
 		HAL_NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
 	#endif
 	__HAL_UART_ENABLE_IT(&UPPER_UART, UART_IT_IDLE);
-
+	
+	HAL_UART_Receive_IT(&AutoAim_UART,(uint8_t *)&autoAimRxBuffer,1);
 	
   /* USER CODE END 2 */
 
