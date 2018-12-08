@@ -44,6 +44,11 @@ void RxEnemyINFO()
 			enemy_INFO_cnt=0;
 		}
 	}
+	else if((enemy_INFO_cnt>0&&RX_ENEMY_Y_TAG!='Y')||(enemy_INFO_cnt>4&&RX_ENEMY_Y_TAG!='P'))
+	{
+		RX_ENEMY_ERROR();
+		enemy_INFO_cnt=0;
+	}
 	RX_ENEMY_SIGNAL();
 }
 
