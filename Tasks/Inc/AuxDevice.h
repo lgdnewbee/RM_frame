@@ -18,7 +18,7 @@
 #define STEER_TIM 				htim2
 #define BUZZER_TIM 				htim12
 
-#define RC_UART 				huart1
+#define RC_UART 					huart1
 #define AutoAim_UART 			huart8
 #define UPPER_UART 				huart3
 #define JUDGE_UART 				huart6

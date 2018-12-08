@@ -13,6 +13,7 @@
 #define __INCLUDES_H
 
 //#define DEBUG_MODE
+#define AUTOAIM_MODE
 
 #define INFANTRY2
 

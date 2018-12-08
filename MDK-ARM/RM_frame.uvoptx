@@ -245,11 +245,6 @@
           <WinNumber>1</WinNumber>
           <ItemText>gyroYAngle</ItemText>
         </Ww>
-        <Ww>
-          <count>19</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>aRxBuffer</ItemText>
-        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>
@@ -260,32 +255,117 @@
         <Ww>
           <count>1</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Rx_enemy_INFO[0]</ItemText>
+          <ItemText>find_enemy</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>2</WinNumber>
-          <ItemText>aRxBuffer</ItemText>
+          <ItemText>enemy.y</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>2</WinNumber>
-          <ItemText>find_enemy</ItemText>
+          <ItemText>enemy.p</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Rx_enemy_INFO[4]</ItemText>
+          <ItemText>Rx_enemy_INFO[0]</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>2</WinNumber>
-          <ItemText>enemy.y</ItemText>
+          <ItemText>Rx_enemy_INFO[1]</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>2</WinNumber>
-          <ItemText>enemy.p</ItemText>
+          <ItemText>Rx_enemy_INFO[2]</ItemText>
+        </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Rx_enemy_INFO[3]</ItemText>
+        </Ww>
+        <Ww>
+          <count>8</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Rx_enemy_INFO[4]</ItemText>
+        </Ww>
+        <Ww>
+          <count>9</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Rx_enemy_INFO[5]</ItemText>
+        </Ww>
+        <Ww>
+          <count>10</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Rx_enemy_INFO[6]</ItemText>
+        </Ww>
+        <Ww>
+          <count>11</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Rx_enemy_INFO[7]</ItemText>
+        </Ww>
+        <Ww>
+          <count>12</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Tx_GM_INFO[0]</ItemText>
+        </Ww>
+        <Ww>
+          <count>13</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Tx_GM_INFO[1]</ItemText>
+        </Ww>
+        <Ww>
+          <count>14</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Tx_GM_INFO[2]</ItemText>
+        </Ww>
+        <Ww>
+          <count>15</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Tx_GM_INFO[3]</ItemText>
+        </Ww>
+        <Ww>
+          <count>16</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Tx_GM_INFO[4]</ItemText>
+        </Ww>
+        <Ww>
+          <count>17</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Tx_GM_INFO[5]</ItemText>
+        </Ww>
+        <Ww>
+          <count>18</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Tx_GM_INFO[6]</ItemText>
+        </Ww>
+        <Ww>
+          <count>19</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Tx_GM_INFO[7]</ItemText>
+        </Ww>
+        <Ww>
+          <count>20</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>current_y_tmp</ItemText>
+        </Ww>
+        <Ww>
+          <count>21</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>current_p_tmp</ItemText>
+        </Ww>
+        <Ww>
+          <count>22</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>current.y</ItemText>
+        </Ww>
+        <Ww>
+          <count>23</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>current.p</ItemText>
         </Ww>
       </WatchWindow2>
       <Tracepoint>

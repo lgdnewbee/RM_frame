@@ -162,9 +162,7 @@ int main(void)
 	#endif
 	__HAL_UART_ENABLE_IT(&UPPER_UART, UART_IT_IDLE);
 	
-	HAL_UART_Receive_IT(&AutoAim_UART,(uint8_t *)&autoAimRxBuffer,1);
-	
-  /* USER CODE END 2 */
+	/* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
