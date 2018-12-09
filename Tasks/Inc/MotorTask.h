@@ -14,16 +14,10 @@
 
 #include "includes.h"
 
-#ifdef INFANTRY4
-#define GM_PITCH_GRAVITY_COMPENSATION 800
-#define GM_PITCH_ZERO 	7788
-#define GM_YAW_ZERO 	4640
-#endif
-#ifdef INFANTRY2
-#define GM_PITCH_GRAVITY_COMPENSATION 100
-#define GM_PITCH_ZERO 	6000
-#define GM_YAW_ZERO 	1200
-#endif
+#define GM_PITCH_GRAVITY_COMPENSATION -150
+#define GM_PITCH_ZERO 	6602
+#define GM_YAW_ZERO 	4375
+
 #define CHASSIS_SPEED_ATTENUATION   (1.30f)
 #define NORMALIZE_ANGLE180(angle) angle = ((angle) > 180) ? ((angle) - 360) : (((angle) < -180) ? (angle) + 360 : angle)
 #define CHASSIS_MOTOR_ROTATE_PID_DEFAULT \
@@ -73,7 +67,7 @@ typedef struct MotorINFO
 	double 				TargetAngle;
 	uint8_t				s_count;
 	uint8_t 			FirstEnter;
-	uint16_t 			lastRead;
+	double 				lastRead;
 	double 				RealAngle;
 	void (*Handle)(struct MotorINFO* id);
 	fw_PID_Regulator_t 	positionPID;
@@ -104,7 +98,7 @@ typedef struct MotorINFO
 }
 
 
-extern MotorINFO CMFL,CMFR,CMBL,CMBR,GMY,GMP,FRICL,FRICR,STIR;
+extern MotorINFO CMFL,CMFR,CMBL,CMBR,UD1,UD2,GMY,GMP,GATE,STIR;
 extern MotorINFO *can1[8],*can2[8];
 
 void InitMotor(MotorINFO *id);

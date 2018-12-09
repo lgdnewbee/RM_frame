@@ -14,6 +14,7 @@
 
 //#define DEBUG_MODE
 #define AUTOAIM_MODE
+#define CHASSIS_FOLLOW
 
 #define INFANTRY2
 
@@ -49,6 +50,7 @@
 #include "PowerLimitationTask.h"
 #include "GyroReadTask.h"
 #include "AutoAimTask.h"
+#include "bsp_imu.h"
 
 
 extern int16_t global_catch;		//用于检测一个其他文档里，不值得设置全局变量，但是临时需要读取的数据

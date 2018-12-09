@@ -13,7 +13,6 @@
 
 #include "includes.h"
 
-#ifndef DEBUG_MODE
 #ifdef	AUTOAIM_MODE
 
 //enemy: 目标位置（yaw角、pitch角）		current：当前位置（yaw角、pitch角，从电机回传数据获取）
@@ -44,7 +43,7 @@ void RxEnemyINFO()
 			enemy_INFO_cnt=0;
 		}
 	}
-	else if((enemy_INFO_cnt>0&&RX_ENEMY_Y_TAG!='Y')||(enemy_INFO_cnt>4&&RX_ENEMY_Y_TAG!='P'))
+	else if((enemy_INFO_cnt>0&&RX_ENEMY_Y_TAG!='Y')||(enemy_INFO_cnt>4&&RX_ENEMY_P_TAG!='P'))
 	{
 		RX_ENEMY_ERROR();
 		enemy_INFO_cnt=0;
@@ -56,8 +55,8 @@ void autoAim()
 {
 	RxEnemyINFO();
 		
-	GMY.TargetAngle=enemy.y;
-	GMP.TargetAngle=enemy.p;
+	//GMY.TargetAngle=enemy.y;
+	//GMP.TargetAngle=enemy.p;
 
 	current.y=GMY.RealAngle;
 	current.p=GMP.RealAngle;
@@ -101,11 +100,10 @@ void AutoAimRxCpltCallback()
 
 void InitAutoAimUart()
 {
-	if(HAL_UART_Receive_IT(&AutoAim_UART, &autoAimRxBuffer, 1) != HAL_OK)
+	if(HAL_UART_Receive_IT(&AUTOAIM_UART, &autoAimRxBuffer, 1) != HAL_OK)
 	{
 		Error_Handler();
 	}
 }
 
 #endif	/*AUTOAIM_MODE*/
-#endif	/*DEBUG_MODE*/

@@ -157,7 +157,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
 	{
 		judgeUartRxCpltCallback();  //裁判系统数据解算
 	}
-	else if(UartHandle == &AutoAim_UART)
+	else if(UartHandle == &AUTOAIM_UART)
 	{
 		#ifdef	AUTOAIM_MODE
 		AutoAimRxCpltCallback();

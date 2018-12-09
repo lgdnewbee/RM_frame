@@ -129,6 +129,9 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
 	//各模块初始化
+	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
+	__HAL_TIM_SetCompare(&htim2,TIM_CHANNEL_2,800);
+	__HAL_TIM_SetCompare(&htim2,TIM_CHANNEL_3,800);
 	InitRemoteControl();
 	Motor_ID_Setting();
 	for(int i=0;i<8;i++) {InitMotor(can1[i]);InitMotor(can2[i]);}
@@ -146,6 +149,18 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim7);
 	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
 	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
+	mpu_device_init();
+	init_quaternion();
+	for(uint16_t i=0;i<1000;i++)
+	{
+		mpu_get_data();
+		imu_ahrs_update();
+		imu_attitude_update(); 
+		HAL_Delay(2);
+	}
+	#ifdef AUTOAIM_MODE
+	RX_ENEMY_SIGNAL();
+	#endif /*AUTOAIM_MODE*/
 	
 	//ADC
 	//HAL_ADC_Start_DMA(&hadc1,(uint32_t*)&ADC_Value,160);

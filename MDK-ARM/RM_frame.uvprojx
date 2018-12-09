@@ -552,6 +552,11 @@
               <FileType>1</FileType>
               <FilePath>..\Tasks\Src\AutoAimTask.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Tasks\Src\bsp_imu.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

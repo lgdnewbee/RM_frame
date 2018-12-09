@@ -49,43 +49,100 @@ void Limit_and_Synchronization()
 {
 	//demo
 	//MINMAX(UD1.TargetAngle,-900,270);//limit
+	MINMAX(GMP.TargetAngle,-40,30);
+	MINMAX(GMY.TargetAngle,-30,30);
 	//UD2.TargetAngle=-UD1.TargetAngle;//sychronization
 	//demo end
 }
 //******************
 //遥控器模式功能编写
 //******************
+
+int gateState=0,stirDirection=1,gateStep=1;
+int pwm=800;
+
 void RemoteControlProcess(Remote *rc)
 {
 	if(WorkState <= 0) return;
-	//max=660
+	//max=297
 	channelrrow = (rc->ch0 - (int16_t)REMOTE_CONTROLLER_STICK_OFFSET); 
 	channelrcol = (rc->ch1 - (int16_t)REMOTE_CONTROLLER_STICK_OFFSET); 
 	channellrow = (rc->ch2 - (int16_t)REMOTE_CONTROLLER_STICK_OFFSET); 
 	channellcol = (rc->ch3 - (int16_t)REMOTE_CONTROLLER_STICK_OFFSET); 
 	if(WorkState == NORMAL_STATE)
 	{	
+		HAL_GPIO_WritePin(LASER_GPIO_Port, LASER_Pin, GPIO_PIN_SET);
+		
 		ChassisSpeedRef.forward_back_ref = channelrcol * RC_CHASSIS_SPEED_REF;
 		ChassisSpeedRef.left_right_ref   = channelrrow * RC_CHASSIS_SPEED_REF/2;
-		#ifdef USE_CHASSIS_FOLLOW
-		GMY.TargetAngle += channellrow * RC_GIMBAL_SPEED_REF;
-		GMP.TargetAngle += channellcol * RC_GIMBAL_SPEED_REF;
+		#ifdef CHASSIS_FOLLOW
+		GMY.TargetAngle += channellrow * RC_GIMBAL_SPEED_REF * 3;
+		GMP.TargetAngle -= channellcol * RC_GIMBAL_SPEED_REF * 3;
 		#else
 		ChassisSpeedRef.rotate_ref = channellrow * RC_ROTATE_SPEED_REF;
 		#endif
-		FRICL.TargetAngle = 0;
-		FRICR.TargetAngle = 0;
+		
+		STIR.TargetAngle=0;
+		STIR.RealAngle=0;
+		GATE.TargetAngle=0;
+		GATE.RealAngle=0;
+		gateStep=1;
+		pwm=800;
+		__HAL_TIM_SetCompare(&htim2,TIM_CHANNEL_2,800);
+		__HAL_TIM_SetCompare(&htim2,TIM_CHANNEL_3,800);
+		
 	}
 	if(WorkState == ADDITIONAL_STATE_ONE)
 	{
-		FRICL.TargetAngle = 5000;
-		FRICR.TargetAngle = -5000;
+		HAL_GPIO_WritePin(LASER_GPIO_Port, LASER_Pin, GPIO_PIN_SET);
+		
+		GMY.TargetAngle += channellrow * RC_GIMBAL_SPEED_REF;
+		GMP.TargetAngle -= channellcol * RC_GIMBAL_SPEED_REF;
+		
+		if((pwm<1100)&&(auto_counter/5==0)){
+			pwm=pwm+3;
+			__HAL_TIM_SetCompare(&htim2,TIM_CHANNEL_2,pwm);
+			__HAL_TIM_SetCompare(&htim2,TIM_CHANNEL_3,pwm);
+		}
+		
+		if(STIR.TargetAngle-STIR.RealAngle>10){stirDirection=0;STIR.RealAngle=0;STIR.TargetAngle=-5;}
+		if(STIR.TargetAngle-STIR.RealAngle<-10){stirDirection=0;STIR.RealAngle=0;STIR.TargetAngle=5;}
+		STIR.TargetAngle+=3*stirDirection;
+		
+		
+		
+		if(gateState==0)
+		{
+			if(gateStep==1){GATE.TargetAngle=300;gateStep=2;}
+			gateState=1;
+		}
+		if(gateStep==2&&GATE.RealAngle>120){GATE.TargetAngle=0;GATE.RealAngle=0;gateStep=1;stirDirection=1;}
+		/*
+		if(gateStep==2&&GATE.RealAngle<-110){GATE.TargetAngle=300;gateStep=3;}
+		if(gateStep==3&&GATE.RealAngle>0){GATE.TargetAngle=-300;gateStep=4;}
+		if(gateStep==4&&GATE.RealAngle<-110){GATE.TargetAngle=0;GATE.RealAngle=0;gateStep=1;stirDirection=1;}
+		*/
 	}
 	if(WorkState == ADDITIONAL_STATE_TWO)
 	{
-		FRICL.TargetAngle = 5000;
-		FRICR.TargetAngle = -5000;
-		Delay(20,{STIR.TargetAngle-=60;});
+		GMY.TargetAngle += channellrow * RC_GIMBAL_SPEED_REF;
+		GMP.TargetAngle -= channellcol * RC_GIMBAL_SPEED_REF;
+		
+		HAL_GPIO_WritePin(LASER_GPIO_Port, LASER_Pin, GPIO_PIN_SET);
+		
+		if(STIR.TargetAngle-STIR.RealAngle>10){stirDirection=0;STIR.RealAngle=0;STIR.TargetAngle=-5;}
+		if(STIR.TargetAngle-STIR.RealAngle<-10){stirDirection=0;STIR.RealAngle=0;STIR.TargetAngle=5;}
+		STIR.TargetAngle += 3*stirDirection;
+		if(gateState==1)
+		{
+			if(gateStep==1){GATE.TargetAngle=300;gateStep=2;}
+			gateState=0;
+		}
+		if(gateStep==2&&GATE.RealAngle>120){GATE.TargetAngle=0;GATE.RealAngle=0;gateStep=1;stirDirection=1;}
+		/*
+		if(gateStep==2&&GATE.RealAngle<-110){GATE.TargetAngle=300;gateStep=3;}
+		if(gateStep==3&&GATE.RealAngle>0){GATE.TargetAngle=-300;gateStep=4;}
+		if(gateStep==4&&GATE.RealAngle<-110){GATE.TargetAngle=0;GATE.RealAngle=0;gateStep=1;stirDirection=1;}*/
 	}
 	Limit_and_Synchronization();
 }
