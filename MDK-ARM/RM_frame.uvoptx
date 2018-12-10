@@ -238,12 +238,12 @@
         <Ww>
           <count>17</count>
           <WinNumber>1</WinNumber>
-          <ItemText>gyroZAngle</ItemText>
+          <ItemText>imu.yaw</ItemText>
         </Ww>
         <Ww>
           <count>18</count>
           <WinNumber>1</WinNumber>
-          <ItemText>gyroYAngle</ItemText>
+          <ItemText>imu.pit</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>

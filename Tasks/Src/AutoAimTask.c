@@ -13,7 +13,8 @@
 
 #include "includes.h"
 
-#ifdef	AUTOAIM_MODE
+#ifndef DEBUG_MODE
+#ifdef	USE_AUTOAIM
 
 //enemy: Ä¿±êÎ»ÖÃ£¨yaw½Ç¡¢pitch½Ç£©		current£ºµ±Ç°Î»ÖÃ£¨yaw½Ç¡¢pitch½Ç£¬´Óµç»ú»Ø´«Êı¾İ»ñÈ¡£©
 GMINFO_t enemy,current;
@@ -39,31 +40,25 @@ void RxEnemyINFO()
 		}
 		else
 		{
-			RX_ENEMY_ERROR();
+			//RX_ENEMY_ERROR();
 			enemy_INFO_cnt=0;
 		}
 	}
-<<<<<<< HEAD
 	else if((enemy_INFO_cnt>0&&RX_ENEMY_Y_TAG!='Y')||(enemy_INFO_cnt>4&&RX_ENEMY_P_TAG!='P'))
 	{
-		RX_ENEMY_ERROR();
+		//RX_ENEMY_ERROR();
 		enemy_INFO_cnt=0;
 	}
-=======
->>>>>>> parent of cea3756... è‡ªç„ç¬¬äºŒç‰ˆç¨‹åº
 	RX_ENEMY_SIGNAL();
 }
 
 void autoAim()
 {
 	RxEnemyINFO();
-		
 	//GMY.TargetAngle=enemy.y;
 	//GMP.TargetAngle=enemy.p;
-
 	current.y=GMY.RealAngle;
 	current.p=GMP.RealAngle;
-	
 	TxCurrentGMINFO();
 }
 
@@ -88,9 +83,9 @@ void TxCurrentGMINFO()
 	}
 	
 	//*****************************************ÉÏÎ»»úÊı¾İ´¦Àí************************************************//
-	//current_yaw		=((TX_CURRENT_Y_SIGN=='-')?(-1.0):1.0)*\
+	//current_yaw		=((TX_CURRENT_Y_SIGN=='-')?(-1.0):1.0)*
 	//							 (double)(((uint16_t)TX_CURRENT_Y1<<8)|((uint16_t)TX_CURRENT_Y2))*k_angle;
-	//current_pitch	=((TX_CURRENT_P_SIGN=='-')?(-1.0):1.0)*\
+	//current_pitch	=((TX_CURRENT_P_SIGN=='-')?(-1.0):1.0)*
 	//							 (double)(((uint16_t)TX_CURRENT_P1<<8)|((uint16_t)TX_CURRENT_P2))*k_angle;
 	//*******************************************************************************************************//
 	
@@ -109,4 +104,5 @@ void InitAutoAimUart()
 	}
 }
 
-#endif	/*AUTOAIM_MODE*/
+#endif /*USE_AUTOAIM*/
+#endif /*DEBUG_MODE*/

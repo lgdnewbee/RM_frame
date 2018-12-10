@@ -14,6 +14,16 @@
 
 #include "mytype.h"
 #define MPU_DELAY(x) HAL_Delay(x)
+#define imu_update_start()\
+{\
+	for(uint16_t i=0;i<1000;i++)\
+	{\
+		mpu_get_data();\
+		imu_ahrs_update();\
+		imu_attitude_update();\
+		HAL_Delay(2);\
+	}\
+}
 
 typedef struct
 {

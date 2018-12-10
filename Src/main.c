@@ -125,21 +125,21 @@ int main(void)
   MX_TIM5_Init();
   MX_USART3_UART_Init();
   MX_UART7_Init();
+  MX_USART2_UART_Init();
   MX_UART8_Init();
 
   /* USER CODE BEGIN 2 */
 	//各模块初始化
+	#ifdef FRIC_PWM_MODE//临时使用，后续不需要
 	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
 	__HAL_TIM_SetCompare(&htim2,TIM_CHANNEL_2,800);
 	__HAL_TIM_SetCompare(&htim2,TIM_CHANNEL_3,800);
+	#endif /*FRIC_PWM_MODE*/
 	InitRemoteControl();
 	Motor_ID_Setting();
 	for(int i=0;i<8;i++) {InitMotor(can1[i]);InitMotor(can2[i]);}
 	InitPWM();
 	InitCanReception();
-	InitGyroUart();
-	InitJudgeUart();
-	
 	#ifdef DEBUG_MODE
 	ctrlUartInit();
 	//时间中断
@@ -149,18 +149,18 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim7);
 	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
 	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
+	#ifdef USE_GYRO
+	InitGyroUart();
+	#endif /*USE_GYRO*/
 	mpu_device_init();
 	init_quaternion();
-	for(uint16_t i=0;i<1000;i++)
-	{
-		mpu_get_data();
-		imu_ahrs_update();
-		imu_attitude_update(); 
-		HAL_Delay(2);
-	}
-	#ifdef AUTOAIM_MODE
+	imu_update_start();
+	InitJudgeUart();
+	#ifndef DEBUG_MODE
+	#ifdef USE_AUTOAIM
 	RX_ENEMY_SIGNAL();
-	#endif /*AUTOAIM_MODE*/
+	#endif /*USE_AUTOAIM*/
+	#endif /*DEBUG_MODE*/
 	
 	//ADC
 	//HAL_ADC_Start_DMA(&hadc1,(uint32_t*)&ADC_Value,160);
@@ -177,7 +177,7 @@ int main(void)
 	#endif
 	__HAL_UART_ENABLE_IT(&UPPER_UART, UART_IT_IDLE);
 	
-	/* USER CODE END 2 */
+  /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */

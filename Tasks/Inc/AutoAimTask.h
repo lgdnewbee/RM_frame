@@ -15,7 +15,8 @@
 
 #include "includes.h"
 
-#ifdef	AUTOAIM_MODE
+#ifndef DEBUG_MODE
+#ifdef	USE_AUTOAIM
 
 #define RX_ENEMY_ERROR()		HAL_UART_Transmit_DMA(&AUTOAIM_UART,(uint8_t *)&Rx_error,sizeof(Rx_error))
 #define RX_ENEMY_SIGNAL()		HAL_UART_Receive_DMA(&AUTOAIM_UART,(uint8_t *)&autoAimRxBuffer,1)
@@ -56,6 +57,7 @@ void RXEnemyINFO(void);
 void AutoAimRxCpltCallback(void);
 void InitAutoAimUart(void);
 
-#endif	/*AUTOAIM_MODE*/
+#endif /*USE_AUTOAIM*/
+#endif /*DEBUG_MODE*/
 
-#endif 	/*__AUTOAIMTASK_H*/
+#endif /*__AUTOAIMTASK_H*/

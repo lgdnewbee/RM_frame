@@ -13,10 +13,10 @@
 
 void ControlNM(MotorINFO *id);
 void ControlCM(MotorINFO *id);
+#ifdef USE_IMU
 void ControlGMY(MotorINFO *id);
 void ControlGMP(MotorINFO *id);
-void ControlGMY_nospeed(MotorINFO *id);
-void ControlGMP_nospeed(MotorINFO *id);
+#endif /*USE_IMU*/
 extern int16_t testIntensity;
 
 //**********************************************************************
@@ -103,96 +103,8 @@ void ControlCM(MotorINFO* id)
 	id->offical_speedPID.Calc(&(id->offical_speedPID));
 	id->Intensity=(1.30f)*id->offical_speedPID.output;
 }
-void ControlGMY_nospeed(MotorINFO* id)
-{
-	if(id==0) return;
-	if(id->s_count == 1)
-	{		
-		double 	ThisAngle;	
-		ThisAngle = id->RxMsg6623.angle;				//未处理角度
-		
-		if(id->FirstEnter==1) {
-			id->lastRead = ThisAngle;
-			id->RealAngle =(double)(GM_YAW_ZERO - id->RxMsg6623.angle) * 360.0 / 8192.0;
-			NORMALIZE_ANGLE180(id->RealAngle);
-			id->RealAngle/=id->ReductionRate;
-			id->FirstEnter = 0;
-			return;
-		}
-		
-		if(ThisAngle<=id->lastRead)
-		{
-			if((id->lastRead-ThisAngle)>3000)//编码器上溢
-				id->RealAngle = id->RealAngle + (ThisAngle+8192-id->lastRead) * 360 / 8192.0 / id->ReductionRate;
-			else//正常
-				id->RealAngle = id->RealAngle - (id->lastRead - ThisAngle) * 360 / 8192.0 / id->ReductionRate;
-		}
-		else
-		{
-			if((ThisAngle-id->lastRead)>3000)//编码器下溢
-				id->RealAngle = id->RealAngle - (id->lastRead+8192-ThisAngle) *360 / 8192.0 / id->ReductionRate;
-			else//正常
-				id->RealAngle = id->RealAngle + (ThisAngle - id->lastRead) * 360 / 8192.0 / id->ReductionRate;
-		}
-		id->positionPID.target = id->TargetAngle;
-		id->positionPID.feedback = id->RealAngle;
-		id->positionPID.Calc(&id->positionPID);
-		
-		id->Intensity = id->positionPID.output;
-		
-		id->s_count = 0;
-		id->lastRead = ThisAngle;
-	}
-	else
-	{
-		id->s_count++;
-	}		
-}
-void ControlGMP_nospeed(MotorINFO* id)
-{
-	if(id==0) return;
-	if(id->s_count == 1)
-	{		
-		uint16_t 	ThisAngle;	
-		ThisAngle = id->RxMsg6623.angle;				//未处理角度
-		
-		if(id->FirstEnter==1) {
-			id->lastRead = ThisAngle;
-			id->RealAngle =(double)(GM_PITCH_ZERO - id->RxMsg6623.angle) * 360.0 / 8192.0;
-			NORMALIZE_ANGLE180(id->RealAngle);
-			id->RealAngle/=id->ReductionRate;
-			id->FirstEnter = 0;
-			return;
-		}
-		
-		if(ThisAngle<=id->lastRead)
-		{
-			if((id->lastRead-ThisAngle)>3000)//编码器上溢
-				id->RealAngle = id->RealAngle + (ThisAngle+8192-id->lastRead) * 360 / 8192.0 / id->ReductionRate;
-			else//正常
-				id->RealAngle = id->RealAngle - (id->lastRead - ThisAngle) * 360 / 8192.0 / id->ReductionRate;
-		}
-		else
-		{
-			if((ThisAngle-id->lastRead)>3000)//编码器下溢
-				id->RealAngle = id->RealAngle - (id->lastRead+8192-ThisAngle) *360 / 8192.0 / id->ReductionRate;
-			else//正常
-				id->RealAngle = id->RealAngle + (ThisAngle - id->lastRead) * 360 / 8192.0 / id->ReductionRate;
-		}
-		id->positionPID.target = id->TargetAngle;
-		id->positionPID.feedback = id->RealAngle;
-		id->positionPID.Calc(&id->positionPID);
-		
-		id->Intensity = id->positionPID.output;
-		
-		id->s_count = 0;
-		id->lastRead = ThisAngle;
-	}
-	else
-	{
-		id->s_count++;
-	}		
-}
+
+#ifdef USE_IMU
 void ControlGMY(MotorINFO* id)
 {
 	if(id==0) return;
@@ -236,7 +148,7 @@ void ControlGMY(MotorINFO* id)
 	else
 	{
 		id->s_count++;
-	}				
+	}
 }
 void ControlGMP(MotorINFO* id)
 {
@@ -285,6 +197,7 @@ void ControlGMP(MotorINFO* id)
 		id->s_count++;
 	}			
 }
+#endif /*USE_IMU*/
 
 //CAN
 void setCAN11()
@@ -501,6 +414,7 @@ void InitMotor(MotorINFO *id)
 	id->TargetAngle=0;
 	id->offical_speedPID.Reset(&(id->offical_speedPID));
 	(id->Handle)(id);
+	id->Intensity=0;
 }
 
 void Motor_ID_Setting()

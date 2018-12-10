@@ -10,6 +10,8 @@
   *
 *******************************************************************/
 #include "includes.h"
+
+#ifndef USE_IMU
 #ifdef USE_GYRO
 uint8_t tmp_gyro;
 uint8_t gyro_receiving = 0;
@@ -97,4 +99,5 @@ uint8_t sumCheck()
 	}
 	return minus;
 }
-#endif
+#endif /*USE_GYRO*/
+#endif /*USE_IMU*/

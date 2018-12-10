@@ -19,17 +19,21 @@
 #define BUZZER_TIM 				htim12
 
 #define RC_UART 					huart1
-#define UPPER_UART 				huart3
 #define JUDGE_UART 				huart6
 #define GYRO_UART 				huart7
 #define AUTOAIM_UART 			huart8
+#define UPPER_UART 				huart8
 
 #define BUZZER_CHANNEL			TIM_CHANNEL_1
 
 
 //IO重命名
-
-
+#define LASER_Pin GPIO_PIN_13
+#define LASER_GPIO_Port GPIOG
+#define NSS_Pin GPIO_PIN_6
+#define NSS_GPIO_Port GPIOF
+#define LED_GREEN_Pin GPIO_PIN_14
+#define LED_GREEN_GPIO_Port GPIOF
 
 //pwm重命名
 //demo

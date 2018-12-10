@@ -43,6 +43,9 @@ void OptionalFunction()
 {
 	Cap_Control();
 	PowerLimitation();
+	#ifdef USE_AUTOAIM
+	autoAim();
+	#endif
 }
 
 void Limit_and_Synchronization()
@@ -64,36 +67,42 @@ int pwm=800;
 void RemoteControlProcess(Remote *rc)
 {
 	if(WorkState <= 0) return;
-	//max=297
+	//max=660
 	channelrrow = (rc->ch0 - (int16_t)REMOTE_CONTROLLER_STICK_OFFSET); 
 	channelrcol = (rc->ch1 - (int16_t)REMOTE_CONTROLLER_STICK_OFFSET); 
 	channellrow = (rc->ch2 - (int16_t)REMOTE_CONTROLLER_STICK_OFFSET); 
 	channellcol = (rc->ch3 - (int16_t)REMOTE_CONTROLLER_STICK_OFFSET); 
 	if(WorkState == NORMAL_STATE)
 	{	
+		#ifdef GM_TEST
 		HAL_GPIO_WritePin(LASER_GPIO_Port, LASER_Pin, GPIO_PIN_SET);
 		
 		ChassisSpeedRef.forward_back_ref = channelrcol * RC_CHASSIS_SPEED_REF;
 		ChassisSpeedRef.left_right_ref   = channelrrow * RC_CHASSIS_SPEED_REF/2;
-		#ifdef CHASSIS_FOLLOW
+		#ifdef USE_CHASSIS_FOLLOW
 		GMY.TargetAngle += channellrow * RC_GIMBAL_SPEED_REF * 3;
 		GMP.TargetAngle -= channellcol * RC_GIMBAL_SPEED_REF * 3;
 		#else
 		ChassisSpeedRef.rotate_ref = channellrow * RC_ROTATE_SPEED_REF;
 		#endif
-		
+		FRICL.TargetAngle = 0;
+		FRICR.TargetAngle = 0;
 		STIR.TargetAngle=0;
 		STIR.RealAngle=0;
 		GATE.TargetAngle=0;
 		GATE.RealAngle=0;
 		gateStep=1;
+		
+		#ifdef FRIC_PWM_MODE
 		pwm=800;
 		__HAL_TIM_SetCompare(&htim2,TIM_CHANNEL_2,800);
 		__HAL_TIM_SetCompare(&htim2,TIM_CHANNEL_3,800);
-		
+		#endif /*FRIC_PWM_MODE*/
+		#endif /*GM_TEST*/
 	}
 	if(WorkState == ADDITIONAL_STATE_ONE)
 	{
+		#ifdef GM_TEST
 		HAL_GPIO_WritePin(LASER_GPIO_Port, LASER_Pin, GPIO_PIN_SET);
 		
 		GMY.TargetAngle += channellrow * RC_GIMBAL_SPEED_REF;
@@ -109,8 +118,6 @@ void RemoteControlProcess(Remote *rc)
 		if(STIR.TargetAngle-STIR.RealAngle<-10){stirDirection=0;STIR.RealAngle=0;STIR.TargetAngle=5;}
 		STIR.TargetAngle+=3*stirDirection;
 		
-		
-		
 		if(gateState==0)
 		{
 			if(gateStep==1){GATE.TargetAngle=300;gateStep=2;}
@@ -122,9 +129,11 @@ void RemoteControlProcess(Remote *rc)
 		if(gateStep==3&&GATE.RealAngle>0){GATE.TargetAngle=-300;gateStep=4;}
 		if(gateStep==4&&GATE.RealAngle<-110){GATE.TargetAngle=0;GATE.RealAngle=0;gateStep=1;stirDirection=1;}
 		*/
+		#endif /*GM_TEST*/
 	}
 	if(WorkState == ADDITIONAL_STATE_TWO)
 	{
+		#ifdef GM_TEST
 		GMY.TargetAngle += channellrow * RC_GIMBAL_SPEED_REF;
 		GMP.TargetAngle -= channellcol * RC_GIMBAL_SPEED_REF;
 		
@@ -143,6 +152,7 @@ void RemoteControlProcess(Remote *rc)
 		if(gateStep==2&&GATE.RealAngle<-110){GATE.TargetAngle=300;gateStep=3;}
 		if(gateStep==3&&GATE.RealAngle>0){GATE.TargetAngle=-300;gateStep=4;}
 		if(gateStep==4&&GATE.RealAngle<-110){GATE.TargetAngle=0;GATE.RealAngle=0;gateStep=1;stirDirection=1;}*/
+		#endif /*GM_TEST*/
 	}
 	Limit_and_Synchronization();
 }

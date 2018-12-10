@@ -47,12 +47,6 @@
 
 /* Private define ------------------------------------------------------------*/
 
-#define NSS_Pin GPIO_PIN_6
-#define NSS_GPIO_Port GPIOF
-#define LED_GREEN_Pin GPIO_PIN_14
-#define LED_GREEN_GPIO_Port GPIOF
-#define LASER_Pin GPIO_PIN_13
-#define LASER_GPIO_Port GPIOG
 
 /* ########################## Assert Selection ############################## */
 /**
