@@ -43,11 +43,14 @@ void RxEnemyINFO()
 			enemy_INFO_cnt=0;
 		}
 	}
+<<<<<<< HEAD
 	else if((enemy_INFO_cnt>0&&RX_ENEMY_Y_TAG!='Y')||(enemy_INFO_cnt>4&&RX_ENEMY_P_TAG!='P'))
 	{
 		RX_ENEMY_ERROR();
 		enemy_INFO_cnt=0;
 	}
+=======
+>>>>>>> parent of cea3756... 自瞄第二版程序
 	RX_ENEMY_SIGNAL();
 }
 
