@@ -134,11 +134,15 @@ void controlLoop()
 	{
 		Chassis_Data_Decoding();
 		
+		#ifdef USE_IMU
 		mpu_get_data();
 		imu_ahrs_update();
 		imu_attitude_update(); 
+		#endif /*USE_IMU*/
 		
-		autoAim();
+		#ifdef USE_AUTOAIM
+		GMGetCurrentPosition();
+		#endif /*AUTOAIM*/
 		
 		for(int i=0;i<8;i++) if(can1[i]!=0) (can1[i]->Handle)(can1[i]);
 		for(int i=0;i<8;i++) if(can2[i]!=0) (can2[i]->Handle)(can2[i]);

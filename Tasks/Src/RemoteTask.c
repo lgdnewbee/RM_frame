@@ -151,7 +151,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
 	{
 		#ifdef USE_GYRO
 		gyroUartRxCpltCallback();
-		#endif
+		#endif /*USE_GYRO*/
 	}
 	else if(UartHandle == &JUDGE_UART)
 	{
@@ -159,9 +159,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
 	}
 	else if(UartHandle == &AUTOAIM_UART)
 	{
-		#ifdef	USE_AUTOAIM
+		#ifdef USE_AUTOAIM
 		AutoAimRxCpltCallback();
-		#endif
+		#endif /*USE_AUTOAIM*/
 	}
 }
 
@@ -173,7 +173,9 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle)
 	}
 	else if(UartHandle == &AUTOAIM_UART)
 	{
+		#ifdef USE_AUTOAIM
 		AutoAimTxCpltCallback();
+		#endif /*USE_AUTOAIM*/
 	}
 }
 void UART_IDLE_Handler(UART_HandleTypeDef *UartHandle)

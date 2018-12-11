@@ -93,6 +93,7 @@ typedef __packed struct
 }ChassisSpeed_Ref_t;
 
 extern ChassisSpeed_Ref_t ChassisSpeedRef; 
+extern int32_t auto_counter;
 
 void FunctionTaskInit(void);
 void Limit_Position(void);

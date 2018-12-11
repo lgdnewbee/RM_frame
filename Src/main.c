@@ -129,8 +129,8 @@ int main(void)
   MX_UART8_Init();
 
   /* USER CODE BEGIN 2 */
-	//å„æ¨¡å—åˆå§‹åŒ–
-	#ifdef FRIC_PWM_MODE//ä¸´æ—¶ä½¿ç”¨ï¼Œåç»­ä¸éœ€è¦
+	//¸÷Ä£¿é³õÊ¼»¯
+	#ifdef FRIC_PWM_MODE//ÁÙÊ±Ê¹ÓÃ£¬ºóĞø²»ĞèÒª
 	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
 	__HAL_TIM_SetCompare(&htim2,TIM_CHANNEL_2,800);
 	__HAL_TIM_SetCompare(&htim2,TIM_CHANNEL_3,800);
@@ -142,7 +142,7 @@ int main(void)
 	InitCanReception();
 	#ifdef DEBUG_MODE
 	ctrlUartInit();
-	//æ—¶é—´ä¸­æ–­
+	//Ê±¼äÖĞ¶Ï
 	HAL_TIM_Base_Start_IT(&htim10);
 	#endif
 	HAL_TIM_Base_Start_IT(&htim6);
@@ -161,7 +161,7 @@ int main(void)
 	//ADC
 	//HAL_ADC_Start_DMA(&hadc1,(uint32_t*)&ADC_Value,160);
 	
-	//å…¶ä»–ä¸­æ–­
+	//ÆäËûÖĞ¶Ï
 	HAL_NVIC_EnableIRQ(CAN1_RX0_IRQn);
 	HAL_NVIC_EnableIRQ(CAN2_RX0_IRQn);
 	HAL_NVIC_EnableIRQ(USART1_IRQn);
