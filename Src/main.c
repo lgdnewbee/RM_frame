@@ -156,11 +156,7 @@ int main(void)
 	init_quaternion();
 	imu_update_start();
 	InitJudgeUart();
-	#ifndef DEBUG_MODE
-	#ifdef USE_AUTOAIM
-	RX_ENEMY_SIGNAL();
-	#endif /*USE_AUTOAIM*/
-	#endif /*DEBUG_MODE*/
+	InitAutoAimUart();
 	
 	//ADC
 	//HAL_ADC_Start_DMA(&hadc1,(uint32_t*)&ADC_Value,160);

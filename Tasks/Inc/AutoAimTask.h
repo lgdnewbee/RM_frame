@@ -40,7 +40,7 @@
 #define TX_CURRENT_P1 			Tx_GM_INFO[6]
 #define TX_CURRENT_P2 			Tx_GM_INFO[7]
 
-#define k_angle   (1*180.0/65536.0)
+#define k_angle   (1*900.0/65536.0)
 
 typedef struct GMINFO_t
 {
@@ -49,13 +49,13 @@ typedef struct GMINFO_t
 }GMINFO_t;
 
 extern GMINFO_t enemy,current;
+extern double current_y_tmp,current_p_tmp;
 extern uint8_t autoAimRxBuffer;
 
-void autoAim(void);
-void TxCurrentGMINFO(void);
-void RXEnemyINFO(void);
-void AutoAimRxCpltCallback(void);
 void InitAutoAimUart(void);
+void autoAim(void);
+void AutoAimTxCpltCallback(void);
+void AutoAimRxCpltCallback(void);
 
 #endif /*USE_AUTOAIM*/
 #endif /*DEBUG_MODE*/

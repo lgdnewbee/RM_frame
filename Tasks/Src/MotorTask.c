@@ -41,8 +41,8 @@ MotorINFO GMP  = Gimbal_MOTORINFO_Init(1.0,&ControlGMP,
 									   fw_PID_INIT(0.5,0,0.2, 	10.0, 10.0, 10.0, 10.0),
 									   fw_PID_INIT(2200,40,0, 	10000.0, 10000.0, 10000.0, 5000.0));
 MotorINFO GMY  = Gimbal_MOTORINFO_Init(1.0,&ControlGMY,
-									   fw_PID_INIT(0.6,0,0.2, 	10.0, 10.0, 10.0, 10.0),
-									   fw_PID_INIT(3000,150,0, 	10000.0, 10000.0, 10000.0, 5000.0));
+									   fw_PID_INIT(0.5,0,0.5, 	10.0, 10.0, 10.0, 10.0),
+									   fw_PID_INIT(4000,150,0, 	10000.0, 10000.0, 10000.0, 5000.0));
 
 //*************************************************************************
 //			Normal_MOTORINFO_Init(rdc,func,ppid,spid)

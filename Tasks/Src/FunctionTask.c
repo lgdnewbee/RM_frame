@@ -43,9 +43,6 @@ void OptionalFunction()
 {
 	Cap_Control();
 	PowerLimitation();
-	#ifdef USE_AUTOAIM
-	autoAim();
-	#endif
 }
 
 void Limit_and_Synchronization()

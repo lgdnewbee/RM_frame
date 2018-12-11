@@ -171,6 +171,10 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle)
 	{
 		
 	}
+	else if(UartHandle == &AUTOAIM_UART)
+	{
+		AutoAimTxCpltCallback();
+	}
 }
 void UART_IDLE_Handler(UART_HandleTypeDef *UartHandle)
 {

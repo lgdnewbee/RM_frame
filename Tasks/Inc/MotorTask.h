@@ -28,7 +28,7 @@
 
 #ifdef GM_TEST
 #define GM_PITCH_GRAVITY_COMPENSATION -150
-#define GM_PITCH_ZERO 	6800
+#define GM_PITCH_ZERO 	6700
 #define GM_YAW_ZERO 	1900
 #endif
 
