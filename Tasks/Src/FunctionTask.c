@@ -49,8 +49,8 @@ void Limit_and_Synchronization()
 {
 	//demo
 	//MINMAX(UD1.TargetAngle,-900,270);//limit
-	MINMAX(GMP.TargetAngle,-35,20);
-	MINMAX(GMY.TargetAngle,-35,35);
+	MINMAX(GMP.TargetAngle,-40,30);
+	MINMAX(GMY.TargetAngle,-30,30);
 	//UD2.TargetAngle=-UD1.TargetAngle;//sychronization
 	//demo end
 }
