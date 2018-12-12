@@ -38,11 +38,11 @@ MotorINFO FRICR = Chassis_MOTORINFO_Init(&ControlCM,CHASSIS_MOTOR_SPEED_PID_DEFA
 //************************************************************************
 //使用云台电机时，请务必确定校准过零点
 MotorINFO GMP  = Gimbal_MOTORINFO_Init(1.0,&ControlGMP,
-									   fw_PID_INIT(0.4,0,0.1, 	10.0, 10.0, 10.0, 10.0),
-									   fw_PID_INIT(2000,15,0, 	10000.0, 10000.0, 10000.0, 5000.0));
+									   fw_PID_INIT(0.3,0,0.5, 	10.0, 10.0, 10.0, 10.0),
+									   fw_PID_INIT(1800,40,0, 	10000.0, 10000.0, 10000.0, 5000.0));
 MotorINFO GMY  = Gimbal_MOTORINFO_Init(1.0,&ControlGMY,
 									   fw_PID_INIT(0.5,0,0.3, 	10.0, 10.0, 10.0, 10.0),
-									   fw_PID_INIT(4000,150,0, 	10000.0, 10000.0, 10000.0, 5000.0));
+									   fw_PID_INIT(4000,150,50, 	10000.0, 10000.0, 10000.0, 5000.0));
 
 //*************************************************************************
 //			Normal_MOTORINFO_Init(rdc,func,ppid,spid)
@@ -185,7 +185,7 @@ void ControlGMP(MotorINFO* id)
 		}
 		id->lastRead = ThisAngle ;
 			
-		id->Intensity = GM_PITCH_GRAVITY_COMPENSATION * cos((id->RealAngle-5)*0.017) + PID_PROCESS_Double(&(id->positionPID),&(id->speedPID),id->TargetAngle,id->RealAngle,-ThisSpeed);
+		id->Intensity = GM_PITCH_GRAVITY_COMPENSATION * cos((id->RealAngle-10)*0.018) + PID_PROCESS_Double(&(id->positionPID),&(id->speedPID),id->TargetAngle,id->RealAngle,-ThisSpeed);
 		//id->Intensity = GM_PITCH_GRAVITY_COMPENSATION + PID_PROCESS_Double(&(id->positionPID),&(id->speedPID),0,0,-ThisSpeed);
 		//id->Intensity = 0;
 		//MINMAX(id->Intensity,-id->speedPID.outputMax,id->speedPID.outputMax);

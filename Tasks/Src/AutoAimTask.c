@@ -47,10 +47,10 @@ void autoAim()//ÎÈ¶¨ÐÔ´ý¼ì²â
 {
 	if(find_enemy)
 	{
-		if(aim_cnt<25)
+		if(aim_cnt<20)
 		{
-			GMY.TargetAngle+=enemy.y/25;
-			GMP.TargetAngle-=enemy.p/25;
+			GMY.TargetAngle+=enemy.y/20;
+			GMP.TargetAngle-=enemy.p/20;
 			aim_cnt++;
 		}
 		else
