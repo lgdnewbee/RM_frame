@@ -132,17 +132,14 @@ void controlLoop()
 	
 	if(WorkState > 0)
 	{
-		Chassis_Data_Decoding();
-		
+				
 		#ifdef USE_IMU
 		mpu_get_data();
 		imu_ahrs_update();
 		imu_attitude_update(); 
 		#endif /*USE_IMU*/
 		
-		#ifdef USE_AUTOAIM
-		GMGetCurrentPosition();
-		#endif /*AUTOAIM*/
+		Chassis_Data_Decoding();
 		
 		for(int i=0;i<8;i++) if(can1[i]!=0) (can1[i]->Handle)(can1[i]);
 		for(int i=0;i<8;i++) if(can2[i]!=0) (can2[i]->Handle)(can2[i]);
@@ -203,6 +200,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	}
 	else if (htim->Instance == htim10.Instance)  //10ms，处理上位机数据，优先级不高
 	{
+		#ifdef USE_AUTOAIM
+		AutoAimRxEnemyINFO();
+		#endif /*USE_AUTOAIM*/
 		
 		#ifdef DEBUG_MODE
 		//zykProcessData();

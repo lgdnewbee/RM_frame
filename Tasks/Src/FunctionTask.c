@@ -83,7 +83,7 @@ void RemoteControlProcess(Remote *rc)
 		ChassisSpeedRef.rotate_ref = channellrow * RC_ROTATE_SPEED_REF;
 		#endif
 		#ifdef USE_AUTOAIM
-		autoAim();
+		autoAimGMCTRL();
 		#endif /*USE_AUTOAIM*/
 		FRICL.TargetAngle = 0;
 		FRICR.TargetAngle = 0;

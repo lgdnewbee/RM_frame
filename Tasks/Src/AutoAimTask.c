@@ -16,41 +16,61 @@
 #ifndef DEBUG_MODE
 #ifdef	USE_AUTOAIM
 
-//enemy: 目标位置（yaw角、pitch角）		current：当前位置（yaw角、pitch角，从电机回传数据获取）
-GMINFO_t enemy,current;
-uint8_t autoAimRxBuffer;
-uint8_t Tx_GM_INFO[8],Rx_enemy_INFO[8];
-uint8_t enemy_INFO_cnt=0,find_enemy=0,aim_cnt=0;
-double current_y_tmp,current_p_tmp;
+GMINFO_t aim;
+Coordinate_t enemy_gun,enemy_scope,scope_gun;
+uint8_t Rx_enemy_INFO[8];
+uint8_t find_enemy=0,aim_cnt=0,aim_mode=0;//后续在function种加入aim_mode，供操作手选择是否吊射
+double bullet_speed=bullet_speed_big,bullet_speed_adjust=0;//后续在function中加入bullet_speed_adjust，供操作手手动校准
+
+void InitAutoAim()
+{
+	InitAutoAimUart();
+	scope_gun.x=0;
+	scope_gun.y=0;
+	scope_gun.z=0;
+}
 
 void InitAutoAimUart()
 {
-	if(HAL_UART_Receive_DMA(&AUTOAIM_UART, &autoAimRxBuffer, 1) != HAL_OK)
+	if(HAL_UART_Receive_DMA(&AUTOAIM_UART,(uint8_t *)&Rx_enemy_INFO,8)!= HAL_OK)
 	{
 		Error_Handler();
 	}
-	if(HAL_UART_Transmit_DMA(&AUTOAIM_UART,(uint8_t *)&Tx_GM_INFO,8) != HAL_OK)
+}
+
+void AutoAimRxEnemyINFO()
+{
+	if(RX_ENEMY_START=='s'&&RX_ENEMY_END=='e')
 	{
-		Error_Handler();
-	}		
+		enemy_scope.x=(double)((RX_ENEMY_X1<<8)|RX_ENEMY_X2)*k_coordinate;
+		enemy_scope.y=(double)((RX_ENEMY_Y1<<8)|RX_ENEMY_Y2)*k_coordinate;
+		enemy_scope.z=(double)((RX_ENEMY_D1<<8)|RX_ENEMY_D2)*k_distance;
+		enemy_scope.x=(enemy_scope.x>100)?(enemy_scope.x-200):enemy_scope.x;
+		enemy_scope.y=(enemy_scope.y>100)?(enemy_scope.y-200):enemy_scope.y;
+		find_enemy=1;
+	}
+	RX_ENEMY_SIGNAL();
 }
 
-void GMGetCurrentPosition()
+void enemyINFOProcess()
 {
-	current.y=GMY.RealAngle;
-	current.p=GMP.RealAngle;
-	current_y_tmp=current.y/k_angle;
-	current_p_tmp=current.p/k_angle;
+	enemy_gun.x=enemy_scope.x+scope_gun.x;
+	enemy_gun.y=enemy_scope.y+scope_gun.y;
+	enemy_gun.z=enemy_scope.z+scope_gun.z;
+	aim.y=atan(enemy_gun.x/enemy_gun.z)/const_pi*180.0;
+	aim.p=atan(enemy_gun.y/enemy_gun.z)/const_pi*180.0+GMP.RealAngle;
+	//aim.p=atan(k_aim+((aim_mode)?(1.0):(-1.0))*sqrt(k_aim*k_aim-2.0*k_aim*enemy.y/sqrt(enemy.x*enemy.x+enemy.z*enemy.z)-1.0))/const_pi*180.0-GMP.RealAngle;
 }
 
-void autoAim()//稳定性待检测
+void autoAimGMCTRL()
 {
+	enemyINFOProcess();
 	if(find_enemy)
 	{
-		if(aim_cnt<20)
+		if(aim_cnt<5)
 		{
-			GMY.TargetAngle+=enemy.y/20;
-			GMP.TargetAngle-=enemy.p/20;
+			GMY.TargetAngle+=aim.y/5;
+			GMP.TargetAngle-=aim.p/5;
 			aim_cnt++;
 		}
 		else
@@ -59,43 +79,6 @@ void autoAim()//稳定性待检测
 			find_enemy=0;
 		}
 	}
-}
-
-void AutoAimTxCpltCallback()
-{
-	TX_CURRENT_START	='s';
-	TX_CURRENT_Y_SIGN	=((current.y<0)?'-':'+');
-	TX_CURRENT_Y1			=(((uint16_t)current_y_tmp>>8)&0x00ff);
-	TX_CURRENT_Y2			=(((uint16_t)current_y_tmp)&0x00ff);
-	TX_CURRENT_P_SIGN	=((current.p<0)?'-':'+');
-	TX_CURRENT_P1			=(((uint16_t)current_p_tmp>>8)&0x00ff);
-	TX_CURRENT_P2			=(((uint16_t)current_p_tmp)&0x00ff);
-	TX_CURRENT_END		='e';
-	TX_CURRENT_GMINFO();
-}
-
-void AutoAimRxCpltCallback()
-{
-	Rx_enemy_INFO[enemy_INFO_cnt++]=autoAimRxBuffer;
-	if(enemy_INFO_cnt>=8)
-	{
-		enemy_INFO_cnt=0;
-		if(RX_ENEMY_START=='s'&&RX_ENEMY_END=='e')
-		{
-			enemy.y=((RX_ENEMY_Y_SIGN=='-')?(-1.0):1.0)*(double)(((uint16_t)RX_ENEMY_Y1<<8)|(uint16_t)RX_ENEMY_Y2)*k_angle;
-			enemy.p=((RX_ENEMY_P_SIGN=='-')?(-1.0):1.0)*(double)(((uint16_t)RX_ENEMY_P1<<8)+(uint16_t)RX_ENEMY_P2)*k_angle;
-			find_enemy=1;
-		}
-		else
-		{
-			enemy_INFO_cnt=0;
-		}
-	}
-	else if(RX_ENEMY_START!='s')
-	{
-		enemy_INFO_cnt=0;
-	}
-	RX_ENEMY_SIGNAL();
 }
 
 #endif /*USE_AUTOAIM*/
