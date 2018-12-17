@@ -1,16 +1,12 @@
 /**
   ******************************************************************************
-  * File Name          : TIM.h
-  * Description        : This file provides code for the configuration
-  *                      of the TIM instances.
+  * @file    stm32f4xx_hal_flash_ramfunc.h
+  * @author  MCD Application Team
+  * @brief   Header file of FLASH RAMFUNC driver.
   ******************************************************************************
-  ** This notice applies to any and all portions of this file
-  * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether 
-  * inserted by the user or by software development tools
-  * are owned by their respective copyright owners.
+  * @attention
   *
-  * COPYRIGHT(c) 2018 STMicroelectronics
+  * <h2><center>&copy; COPYRIGHT(c) 2017 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -35,60 +31,65 @@
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
-  */
+  */ 
+
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __tim_H
-#define __tim_H
+#ifndef __STM32F4xx_FLASH_RAMFUNC_H
+#define __STM32F4xx_FLASH_RAMFUNC_H
+
 #ifdef __cplusplus
  extern "C" {
 #endif
+#if defined(STM32F410Tx) || defined(STM32F410Cx) || defined(STM32F410Rx) || defined(STM32F411xE) || defined(STM32F446xx) || defined(STM32F412Zx) ||\
+    defined(STM32F412Vx) || defined(STM32F412Rx) || defined(STM32F412Cx)  
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx_hal.h"
-#include "main.h"
+#include "stm32f4xx_hal_def.h"
 
-/* USER CODE BEGIN Includes */
+/** @addtogroup STM32F4xx_HAL_Driver
+  * @{
+  */
 
-/* USER CODE END Includes */
+/** @addtogroup FLASH_RAMFUNC
+  * @{
+  */
 
-extern TIM_HandleTypeDef htim2;
-extern TIM_HandleTypeDef htim5;
-extern TIM_HandleTypeDef htim6;
-extern TIM_HandleTypeDef htim7;
-extern TIM_HandleTypeDef htim10;
-extern TIM_HandleTypeDef htim12;
+/* Exported types ------------------------------------------------------------*/
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/
+/** @addtogroup FLASH_RAMFUNC_Exported_Functions
+  * @{
+  */
 
-/* USER CODE BEGIN Private defines */
+/** @addtogroup FLASH_RAMFUNC_Exported_Functions_Group1
+  * @{
+  */   
+__RAM_FUNC HAL_FLASHEx_StopFlashInterfaceClk(void);
+__RAM_FUNC HAL_FLASHEx_StartFlashInterfaceClk(void);
+__RAM_FUNC HAL_FLASHEx_EnableFlashSleepMode(void);
+__RAM_FUNC HAL_FLASHEx_DisableFlashSleepMode(void);
+/**
+  * @}
+  */ 
 
-/* USER CODE END Private defines */
+/**
+  * @}
+  */
 
-extern void _Error_Handler(char *, int);
+/**
+  * @}
+  */ 
 
-void MX_TIM2_Init(void);
-void MX_TIM5_Init(void);
-void MX_TIM6_Init(void);
-void MX_TIM7_Init(void);
-void MX_TIM10_Init(void);
-void MX_TIM12_Init(void);
-                    
-void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
-                                                
+/**
+  * @}
+  */
 
-/* USER CODE BEGIN Prototypes */
-
-/* USER CODE END Prototypes */
-
+#endif /* STM32F410xx || STM32F411xE || STM32F446xx || STM32F412Zx || STM32F412Vx || STM32F412Rx || STM32F412Cx */  
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ tim_H */
 
-/**
-  * @}
-  */
 
-/**
-  * @}
-  */
+#endif /* __STM32F4xx_FLASH_RAMFUNC_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

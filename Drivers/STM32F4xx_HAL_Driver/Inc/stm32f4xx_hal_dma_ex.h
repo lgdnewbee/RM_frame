@@ -1,16 +1,12 @@
 /**
   ******************************************************************************
-  * File Name          : TIM.h
-  * Description        : This file provides code for the configuration
-  *                      of the TIM instances.
+  * @file    stm32f4xx_hal_dma_ex.h
+  * @author  MCD Application Team
+  * @brief   Header file of DMA HAL extension module.
   ******************************************************************************
-  ** This notice applies to any and all portions of this file
-  * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether 
-  * inserted by the user or by software development tools
-  * are owned by their respective copyright owners.
+  * @attention
   *
-  * COPYRIGHT(c) 2018 STMicroelectronics
+  * <h2><center>&copy; COPYRIGHT(c) 2017 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -36,59 +32,89 @@
   *
   ******************************************************************************
   */
+
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __tim_H
-#define __tim_H
+#ifndef __STM32F4xx_HAL_DMA_EX_H
+#define __STM32F4xx_HAL_DMA_EX_H
+
 #ifdef __cplusplus
  extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx_hal.h"
-#include "main.h"
+#include "stm32f4xx_hal_def.h"
 
-/* USER CODE BEGIN Includes */
+/** @addtogroup STM32F4xx_HAL_Driver
+  * @{
+  */
 
-/* USER CODE END Includes */
+/** @addtogroup DMAEx
+  * @{
+  */ 
 
-extern TIM_HandleTypeDef htim2;
-extern TIM_HandleTypeDef htim5;
-extern TIM_HandleTypeDef htim6;
-extern TIM_HandleTypeDef htim7;
-extern TIM_HandleTypeDef htim10;
-extern TIM_HandleTypeDef htim12;
+/* Exported types ------------------------------------------------------------*/
+/** @defgroup DMAEx_Exported_Types DMAEx Exported Types
+  * @brief DMAEx Exported types
+  * @{
+  */
+   
+/** 
+  * @brief  HAL DMA Memory definition  
+  */ 
+typedef enum
+{
+  MEMORY0      = 0x00U,    /*!< Memory 0     */
+  MEMORY1      = 0x01U     /*!< Memory 1     */
+}HAL_DMA_MemoryTypeDef;
 
-/* USER CODE BEGIN Private defines */
+/**
+  * @}
+  */
 
-/* USER CODE END Private defines */
+/* Exported functions --------------------------------------------------------*/
+/** @defgroup DMAEx_Exported_Functions DMAEx Exported Functions
+  * @brief   DMAEx Exported functions
+  * @{
+  */
 
-extern void _Error_Handler(char *, int);
+/** @defgroup DMAEx_Exported_Functions_Group1 Extended features functions
+  * @brief   Extended features functions
+  * @{
+  */
 
-void MX_TIM2_Init(void);
-void MX_TIM5_Init(void);
-void MX_TIM6_Init(void);
-void MX_TIM7_Init(void);
-void MX_TIM10_Init(void);
-void MX_TIM12_Init(void);
-                    
-void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
-                                                
+/* IO operation functions *******************************************************/
+HAL_StatusTypeDef HAL_DMAEx_MultiBufferStart(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, uint32_t DstAddress, uint32_t SecondMemAddress, uint32_t DataLength);
+HAL_StatusTypeDef HAL_DMAEx_MultiBufferStart_IT(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, uint32_t DstAddress, uint32_t SecondMemAddress, uint32_t DataLength);
+HAL_StatusTypeDef HAL_DMAEx_ChangeMemory(DMA_HandleTypeDef *hdma, uint32_t Address, HAL_DMA_MemoryTypeDef memory);
 
-/* USER CODE BEGIN Prototypes */
+/**
+  * @}
+  */
+/**
+  * @}
+  */
+         
+/* Private functions ---------------------------------------------------------*/
+/** @defgroup DMAEx_Private_Functions DMAEx Private Functions
+  * @brief DMAEx Private functions
+  * @{
+  */
+/**
+  * @}
+  */
 
-/* USER CODE END Prototypes */
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
 
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ tim_H */
 
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
+#endif /*__STM32F4xx_HAL_DMA_EX_H*/
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
