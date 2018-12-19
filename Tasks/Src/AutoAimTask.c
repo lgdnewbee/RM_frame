@@ -44,7 +44,7 @@ void AutoAimRxEnemyINFO()
 	{
 		enemy_scope.x=(double)((RX_ENEMY_X1<<8)|RX_ENEMY_X2)*k_coordinate;
 		enemy_scope.y=(double)((RX_ENEMY_Y1<<8)|RX_ENEMY_Y2)*k_coordinate;
-		enemy_scope.z=(double)((RX_ENEMY_D1<<8)|RX_ENEMY_D2)*k_distance;
+		enemy_scope.z=(double)((RX_ENEMY_Z1<<8)|RX_ENEMY_Z2)*k_distance;
 		enemy_scope.x=(enemy_scope.x>100)?(enemy_scope.x-200):enemy_scope.x;
 		enemy_scope.y=(enemy_scope.y>100)?(enemy_scope.y-200):enemy_scope.y;
 		find_enemy=1;
@@ -69,7 +69,7 @@ void autoAimGMCTRL()
 	{
 		if(aim_cnt<5)
 		{
-			GMY.TargetAngle+=aim.y/5;
+			GMY.TargetAngle-=aim.y/5;
 			GMP.TargetAngle-=aim.p/5;
 			aim_cnt++;
 		}

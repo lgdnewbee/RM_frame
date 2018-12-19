@@ -25,8 +25,8 @@
 #define RX_ENEMY_X2 			Rx_enemy_INFO[2]
 #define RX_ENEMY_Y1 			Rx_enemy_INFO[3]
 #define RX_ENEMY_Y2				Rx_enemy_INFO[4]
-#define RX_ENEMY_D1				Rx_enemy_INFO[5]
-#define RX_ENEMY_D2 			Rx_enemy_INFO[6]
+#define RX_ENEMY_Z1				Rx_enemy_INFO[5]
+#define RX_ENEMY_Z2 			Rx_enemy_INFO[6]
 #define RX_ENEMY_END 			Rx_enemy_INFO[7]
 
 #define const_pi						3.14159
